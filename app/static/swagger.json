@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "API de Gestion"
   },
-  "host": "127.0.0.1:5000",
+  "host": "https://flask-1-zqt7.onrender.com",
   "basePath": "/",
   "schemes": ["http"],
   "securityDefinitions": {
