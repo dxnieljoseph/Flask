@@ -5,9 +5,9 @@
     "version": "1.0.0",
     "title": "API de Gestion"
   },
-  "host": "https://flask-1-zqt7.onrender.com",
+  "host": "flask-1-zqt7.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "securityDefinitions": {
     "Bearer": {
       "type": "apiKey",
