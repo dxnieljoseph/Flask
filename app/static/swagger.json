@@ -1,0 +1,343 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API de Gestion des Utilisateurs et Articles",
+    "version": "1.0.0",
+    "title": "API de Gestion"
+  },
+  "host": "127.0.0.1:5000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Authentifier un utilisateur et générer un token",
+        "description": "Retourne un token JWT pour authentification",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Identifiants de connexion",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Token généré avec succès" },
+          "401": { "description": "Authentification échouée" }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Inscrire un nouvel utilisateur",
+        "description": "Permet d'inscrire un nouvel utilisateur",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Détails de l'utilisateur pour l'inscription",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "role": { "type": "string", "default": "user" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": { "description": "Utilisateur inscrit avec succès" },
+          "400": { "description": "Cet utilisateur existe déjà." }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Créer un nouvel utilisateur",
+        "description": "Créer un utilisateur en fournissant les détails",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Détails de l'utilisateur",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "role": { "type": "string", "default": "user" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": { "description": "Utilisateur créé avec succès" },
+          "400": { "description": "Erreur dans les données fournies" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "Obtenir tous les utilisateurs",
+        "description": "Retourne la liste de tous les utilisateurs",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": { "description": "Liste des utilisateurs" },
+          "404": { "description": "Aucun utilisateur trouvé" }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Obtenir un utilisateur par ID",
+        "description": "Retourne les informations d'un utilisateur par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'utilisateur"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Utilisateur trouvé" },
+          "404": { "description": "Utilisateur non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Mettre à jour un utilisateur",
+        "description": "Met à jour un utilisateur par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'utilisateur"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nouveaux détails de l'utilisateur",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": { "type": "string" },
+                "email": { "type": "string" },
+                "role": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Utilisateur mis à jour" },
+          "404": { "description": "Utilisateur non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Supprimer un utilisateur",
+        "description": "Supprime un utilisateur par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'utilisateur"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "204": { "description": "Utilisateur supprimé avec succès" },
+          "404": { "description": "Utilisateur non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/posts": {
+      "get": {
+        "summary": "Obtenir tous les articles",
+        "description": "Retourne la liste de tous les articles",
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Liste des articles" },
+          "404": { "description": "Aucun article trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Créer un nouvel article",
+        "description": "Créer un nouvel article avec titre, corps, et ID utilisateur",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Détails de l'article",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "body": { "type": "string" },
+                "user_id": { "type": "integer" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": { "description": "Article créé avec succès" },
+          "400": { "description": "Erreur dans les données fournies" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "summary": "Obtenir un article par ID",
+        "description": "Retourne un article par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'article"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Article trouvé" },
+          "404": { "description": "Article non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Mettre à jour un article",
+        "description": "Met à jour un article par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'article"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nouveaux détails de l'article",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "body": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": { "description": "Article mis à jour" },
+          "404": { "description": "Article non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Supprimer un article",
+        "description": "Supprime un article par son ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'article"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "204": { "description": "Article supprimé avec succès" },
+          "404": { "description": "Article non trouvé" }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+    
+  }
+}
