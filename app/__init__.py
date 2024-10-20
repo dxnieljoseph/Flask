@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -11,7 +12,8 @@ def create_app():
     app = Flask(__name__)
     app.config['DEBUG'] = True  # Activer le mode debug
 
-
+    CORS(app)
+    
     # Configurer la base de données
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://daniel_flask_api_db_user:XhLoZjswtNeTR9aJu3nlxAmhNCIkDZ4T@dpg-csak7q88fa8c73cpon4g-a.oregon-postgres.render.com/daniel_flask_api_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
